@@ -33,6 +33,10 @@
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 92px;
+  }
 
   body {
     min-height: 100vh;
@@ -62,13 +66,30 @@
     z-index: 2;
   }
 
-  /* ---------- NAV ---------- */
+  /* ---------- NAV (sticky / glass) ---------- */
+  body { padding-top: 76px; }
   nav {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(244, 239, 227, 0.78);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid rgba(12, 39, 48, 0.07);
+    transition: box-shadow .3s ease;
+  }
+  nav.scrolled {
+    box-shadow: 0 12px 30px rgba(12, 39, 48, 0.06);
+  }
+  .nav-shell {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
     align-items: center;
-    height: 84px;
-    border-bottom: 1px solid var(--hairline-soft);
+    justify-content: space-between;
+    gap: 40px;
+    height: 76px;
   }
 
   .brand {
@@ -78,6 +99,8 @@
     font-weight: 700;
     font-size: 18px;
     letter-spacing: -0.02em;
+    text-decoration: none;
+    color: inherit;
   }
   .brand-mark { width: 26px; height: 26px; }
   .brand-name { color: var(--ink); }
@@ -368,13 +391,16 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1024px) {
-    .nav-links { gap: 28px; }
+    .nav-shell { padding: 0 28px; }
+    .nav-links { gap: 24px; font-size: 13px; }
     .headline { max-width: 14ch; }
   }
   @media (max-width: 860px) {
+    body { padding-top: 64px; }
     .shell { padding: 0 24px; }
-    nav { grid-template-columns: 1fr auto; height: 72px; }
+    .nav-shell { padding: 0 20px; height: 64px; }
     .nav-links { display: none; }
+    .brand-name { font-size: 16px; }
     main.hero {
       grid-template-columns: 1fr;
       gap: 56px;
@@ -1998,6 +2024,493 @@
     }
   }
 
+  /* ---------- SLIDE 5 — ÉCRANS / FEATURES ---------- */
+  .ecrans {
+    background: var(--bg);
+    position: relative;
+    padding: 120px 0 140px;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .ecrans-shell {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .ecrans-header {
+    max-width: 760px;
+    margin-bottom: 130px;
+  }
+  .ecrans-title {
+    font-size: clamp(36px, 4.6vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.032em;
+    font-weight: 600;
+    margin: 28px 0 28px;
+    color: var(--ink);
+  }
+  .ecrans-title .light {
+    display: block;
+    font-weight: 300;
+    color: var(--ink-soft);
+    letter-spacing: -0.02em;
+  }
+  .ecrans-lede {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+
+  .feature-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 140px;
+  }
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .feature-row.reverse .feature-mockup { order: 2; }
+  .feature-row.reverse .feature-text   { order: 1; }
+  .feature-row.desktop-row {
+    grid-template-columns: 1.35fr 1fr;
+  }
+  .feature-row.desktop-row.reverse {
+    grid-template-columns: 1fr 1.35fr;
+  }
+
+  .feature-mockup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Phone mockup */
+  .phone-mockup {
+    width: 280px;
+    position: relative;
+    border-radius: 40px;
+    background: #0C2730;
+    padding: 10px;
+    box-shadow:
+      0 30px 60px rgba(7, 59, 99, 0.20),
+      0 8px 18px rgba(7, 59, 99, 0.10),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+  .phone-notch {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88px;
+    height: 22px;
+    background: #000;
+    border-radius: 12px;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .phone-screen {
+    border-radius: 32px;
+    overflow: hidden;
+    position: relative;
+    background: #000;
+    aspect-ratio: 9 / 19.5;
+  }
+  .phone-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Desktop mockup */
+  .desktop-mockup {
+    width: 100%;
+    position: relative;
+    border-radius: 14px;
+    background: #FAF6E9;
+    border: 1px solid rgba(7, 59, 99, 0.12);
+    overflow: hidden;
+    box-shadow:
+      0 30px 60px rgba(7, 59, 99, 0.10),
+      0 6px 14px rgba(7, 59, 99, 0.06);
+  }
+  .desktop-chrome {
+    height: 36px;
+    background: #EFE8D7;
+    border-bottom: 1px solid rgba(7, 59, 99, 0.08);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+  }
+  .desktop-chrome .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(7, 59, 99, 0.22);
+    display: inline-block;
+  }
+  .desktop-chrome .url {
+    margin-left: 16px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+    font-feature-settings: "tnum";
+  }
+  .desktop-screen {
+    background: #fff;
+    line-height: 0;
+  }
+  .desktop-screen img {
+    width: 100%;
+    display: block;
+  }
+
+  /* Feature text */
+  .feature-text { max-width: 480px; }
+  .role-label {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+  .role-label::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    margin-right: 14px;
+  }
+  .feature-title {
+    font-size: clamp(26px, 2.7vw, 38px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .feature-title em {
+    font-style: normal;
+    font-weight: 300;
+    color: var(--ink-soft);
+  }
+  .feature-desc {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 26px;
+  }
+  .feature-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .feature-bullets li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .feature-bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 14px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  /* Phones trio — 3 phones with center raised */
+  .phones-trio {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+  }
+  .phones-trio .phone-mockup { flex-shrink: 0; }
+  .phones-trio .phone-side {
+    width: 180px;
+    border-radius: 32px;
+    padding: 8px;
+  }
+  .phones-trio .phone-side .phone-screen { border-radius: 26px; }
+  .phones-trio .phone-side .phone-notch {
+    top: 18px;
+    width: 64px;
+    height: 18px;
+    border-radius: 9px;
+  }
+  .phones-trio .phone-main {
+    width: 230px;
+    transform: translateY(-32px);
+    z-index: 2;
+    box-shadow:
+      0 36px 70px rgba(7, 59, 99, 0.22),
+      0 12px 24px rgba(7, 59, 99, 0.10),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  /* Spectateur row uses asymmetric grid to give phones more room */
+  .feature-row.spectateur-row {
+    grid-template-columns: 1fr 1.15fr;
+  }
+
+  /* Desktops stack — 3 desktops vertically */
+  .desktops-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+  .desktops-stack .desktop-mockup {
+    transition: transform .4s cubic-bezier(.2,.7,.2,1);
+  }
+  .desktops-stack .desktop-mockup:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Coordinateur row — give the desktops stack more room */
+  .feature-row.coordinateur-row {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: start;
+  }
+  .feature-row.coordinateur-row .feature-text {
+    position: sticky;
+    top: 110px;
+  }
+
+  @media (max-width: 1024px) {
+    .feature-rows { gap: 110px; }
+    .feature-row { gap: 56px; }
+    .ecrans-header { margin-bottom: 90px; }
+    .phones-trio { gap: 12px; }
+    .phones-trio .phone-side { width: 150px; }
+    .phones-trio .phone-main { width: 195px; transform: translateY(-26px); }
+  }
+  @media (max-width: 860px) {
+    .ecrans { padding: 72px 0 88px; }
+    .ecrans-shell { padding: 0 20px; }
+    .ecrans-header { margin-bottom: 56px; }
+    .feature-rows { gap: 72px; }
+    .feature-row,
+    .feature-row.desktop-row,
+    .feature-row.desktop-row.reverse,
+    .feature-row.spectateur-row,
+    .feature-row.coordinateur-row {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      align-items: stretch;
+    }
+    .feature-row.reverse .feature-mockup { order: 1; }
+    .feature-row.reverse .feature-text   { order: 2; }
+    .feature-row.coordinateur-row .feature-text {
+      position: static;
+      top: auto;
+    }
+    .phone-mockup.standalone { width: 220px; margin: 0 auto; }
+    .phones-trio { gap: 10px; }
+    .phones-trio .phone-side { width: 110px; padding: 6px; }
+    .phones-trio .phone-side .phone-screen { border-radius: 20px; }
+    .phones-trio .phone-side .phone-notch {
+      top: 14px;
+      width: 48px;
+      height: 14px;
+      border-radius: 7px;
+    }
+    .phones-trio .phone-main { width: 145px; transform: translateY(-20px); }
+    .desktops-stack { gap: 18px; }
+    .desktop-chrome { height: 28px; padding: 0 12px; gap: 6px; }
+    .desktop-chrome .dot { width: 7px; height: 7px; }
+    .desktop-chrome .url { font-size: 9.5px; margin-left: 10px; }
+  }
+  @media (max-width: 480px) {
+    .phones-trio {
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+    .phones-trio .phone-side,
+    .phones-trio .phone-main {
+      width: 220px;
+      transform: none;
+      padding: 10px;
+    }
+    .phones-trio .phone-side .phone-screen { border-radius: 28px; }
+    .phones-trio .phone-side .phone-notch {
+      top: 22px;
+      width: 80px;
+      height: 20px;
+      border-radius: 10px;
+    }
+  }
+
+  /* ---------- SLIDE 11 — ÉQUIPE ---------- */
+  .equipe {
+    background: var(--bg);
+    padding: 120px 0 140px;
+    border-top: 1px solid var(--hairline-soft);
+    position: relative;
+  }
+  .equipe-shell {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .equipe-header {
+    max-width: 740px;
+    margin-bottom: 90px;
+  }
+  .equipe-title {
+    font-size: clamp(36px, 4.6vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.032em;
+    font-weight: 600;
+    margin: 28px 0 28px;
+    color: var(--ink);
+  }
+  .equipe-title .light {
+    display: block;
+    font-weight: 300;
+    color: var(--ink-soft);
+    letter-spacing: -0.02em;
+  }
+  .equipe-lede {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+
+  .equipe-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .member {
+    padding: 28px 24px 28px 0;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: relative;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  /* fill bottom for last row visual */
+  .member:hover { transform: translateY(-3px); }
+
+  .member-mark {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .member-mark::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--bg);
+  }
+
+  .member-name {
+    font-size: 16.5px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.25;
+  }
+  .member-role {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin: 0;
+    letter-spacing: 0.005em;
+    line-height: 1.45;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .member-role::before {
+    content: "";
+    width: 14px;
+    height: 1px;
+    background: var(--gold);
+    margin-top: 9px;
+    flex-shrink: 0;
+  }
+
+  .equipe-footer {
+    margin-top: 80px;
+    padding-top: 36px;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .equipe-footer .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .equipe-footer .tagline {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+
+  @media (max-width: 1024px) {
+    .equipe-grid { grid-template-columns: repeat(3, 1fr); }
+    .equipe-header { margin-bottom: 64px; }
+  }
+  @media (max-width: 860px) {
+    .equipe { padding: 72px 0 88px; }
+    .equipe-shell { padding: 0 20px; }
+    .equipe-header { margin-bottom: 48px; }
+    .equipe-grid { grid-template-columns: repeat(2, 1fr); }
+    .member { padding: 22px 14px 22px 0; gap: 16px; }
+    .member-mark { width: 42px; height: 42px; font-size: 12px; }
+  }
+  @media (max-width: 480px) {
+    .equipe-grid { grid-template-columns: 1fr; }
+    .member { padding: 22px 0 22px; }
+    .equipe-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -2009,28 +2522,30 @@
 </style>
 </head>
 <body>
-<div class="shell">
-
-  <!-- ============== NAV ============== -->
-  <nav>
-    <div class="brand fade-in d1">
+<!-- ============== NAV (sticky) ============== -->
+<nav id="site-nav">
+  <div class="nav-shell">
+    <a class="brand fade-in d1" href="#top">
       <svg class="brand-mark" viewBox="0 0 28 28" fill="none" aria-hidden="true">
         <path d="M2 14 C 7 5, 21 5, 26 14 C 21 23, 7 23, 2 14 Z" stroke="#0C2730" stroke-width="1.6"/>
         <circle cx="14" cy="14" r="3.5" fill="#C8A24A"/>
         <circle cx="14" cy="14" r="1.2" fill="#0C2730"/>
       </svg>
       <span class="brand-name">sunub<span class="accent">ë</span>t</span>
-    </div>
+    </a>
 
     <ul class="nav-links fade-in d2">
-      <li><a href="#plateforme">Plateforme</a></li>
-      <li><a href="#fonctionnement">Comment ça marche</a></li>
-      <li><a href="#difference">Différenciation</a></li>
+      <li><a href="#constat">Constat</a></li>
+      <li><a href="#produit">Plateforme</a></li>
+      <li><a href="#ecrans">Écrans</a></li>
+      <li><a href="#business-model">Modèle</a></li>
+      <li><a href="#orange-collaboration">Partenaires</a></li>
       <li><a href="#equipe">Équipe</a></li>
     </ul>
+  </div>
+</nav>
 
-    <a class="nav-cta fade-in d3" href="#contact">Nous contacter</a>
-  </nav>
+<div class="shell" id="top">
 
   <!-- ============== HERO ============== -->
   <main class="hero">
@@ -2052,8 +2567,8 @@
         </p>
 
         <div class="cta-row fade-in d4">
-          <a class="cta-primary" href="#demo">
-            Demander une démo
+          <a class="cta-primary" href="#produit">
+            Voir la démo
             <span class="arrow">→</span>
           </a>
           <span class="cta-meta">
@@ -2809,6 +3324,145 @@
   </div>
 </section>
 
+<!-- ============== SLIDE 5 — ÉCRANS / FEATURES ============== -->
+<section id="ecrans" class="ecrans">
+  <div class="ecrans-shell">
+
+    <div class="ecrans-header">
+      <span class="section-label reveal">05 — Les écrans</span>
+      <h2 class="ecrans-title reveal">
+        Quatre rôles.<span class="light">Quatre interfaces. Une mission.</span>
+      </h2>
+      <p class="ecrans-lede reveal">
+        Chaque acteur a un écran taillé pour son métier — pensé pour la vitesse,
+        la clarté, le terrain.
+      </p>
+    </div>
+
+    <div class="feature-rows">
+
+      <!-- Row 1 — SPECTATEUR — text left, 3 phones grouped right -->
+      <div class="feature-row spectateur-row reveal">
+        <div class="feature-text">
+          <span class="role-label">Spectateur · Anonyme · Sans app</span>
+          <h3 class="feature-title">Trois écrans. <em>Trente secondes.</em></h3>
+          <p class="feature-desc">
+            Le spectateur scanne un QR collé sur un mur, choisit la catégorie
+            d'incident, décrit en quelques mots ou en wolof par vocal. Aucune
+            application, aucun compte, aucune friction.
+          </p>
+          <ul class="feature-bullets">
+            <li>Carte vivante avec postes de secours, S.O.S. et zones de référence</li>
+            <li>Sept catégories d'incident, accessibles en deux clics</li>
+            <li>Vocal wolof transcrit en français, photos floutées côté serveur</li>
+          </ul>
+        </div>
+
+        <div class="feature-mockup">
+          <div class="phones-trio">
+            <div class="phone-mockup phone-side">
+              <span class="phone-notch"></span>
+              <div class="phone-screen">
+                <img src="Form1.png" alt="Sélection de la catégorie" loading="lazy"/>
+              </div>
+            </div>
+            <div class="phone-mockup phone-main">
+              <span class="phone-notch"></span>
+              <div class="phone-screen">
+                <img src="Accueill.png" alt="Écran d'accueil spectateur" loading="lazy"/>
+              </div>
+            </div>
+            <div class="phone-mockup phone-side">
+              <span class="phone-notch"></span>
+              <div class="phone-screen">
+                <img src="Form2.png" alt="Détails — photo, vocal, description" loading="lazy"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 — AGENT — phone left, text right -->
+      <div class="feature-row reverse reveal">
+        <div class="feature-mockup">
+          <div class="phone-mockup phone-main standalone">
+            <span class="phone-notch"></span>
+            <div class="phone-screen">
+              <img src="Agent%20de%20terrain.png" alt="Vue agent en mission" loading="lazy"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-text">
+          <span class="role-label">Agent de terrain · En mission</span>
+          <h3 class="feature-title">Une mission. Une page. <em>Pas de menus.</em></h3>
+          <p class="feature-desc">
+            L'agent reçoit le briefing, suit l'itinéraire, met à jour son statut —
+            tout sur une seule page, optimisée pour l'usage en mouvement, sans
+            sortir de la course.
+          </p>
+          <ul class="feature-bullets">
+            <li>Briefing concis, distance et délai estimé</li>
+            <li>Étapes nettes : reçue → acceptée → en route → sur place → terminée</li>
+            <li>Renfort en un clic si la situation dégénère</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Row 3 — COORDINATEUR — text left, 3 desktops stacked right -->
+      <div class="feature-row coordinateur-row reveal">
+        <div class="feature-text">
+          <span class="role-label">Coordinateur · PC opérationnel</span>
+          <h3 class="feature-title">Trois vues. <em>Une décision.</em></h3>
+          <p class="feature-desc">
+            La carte tactique pour dispatcher, la flotte de drones pour anticiper,
+            l'analytics pour rendre des comptes. Tout depuis le même PC, en
+            temps réel, sans changer de plateforme.
+          </p>
+          <ul class="feature-bullets">
+            <li>Carte tactique — alertes, agents, dispatch en cinq clics</li>
+            <li>Drones — couverture aérienne, détection de foule, fausses alertes</li>
+            <li>Analytics — KPI live et rapport post-événement exportable</li>
+          </ul>
+        </div>
+
+        <div class="feature-mockup">
+          <div class="desktops-stack">
+            <div class="desktop-mockup">
+              <div class="desktop-chrome">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="url">sunubet.app · pc-ops</span>
+              </div>
+              <div class="desktop-screen">
+                <img src="Coordinateur.png" alt="Carte tactique du coordinateur" loading="lazy"/>
+              </div>
+            </div>
+            <div class="desktop-mockup">
+              <div class="desktop-chrome">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="url">sunubet.app · drones</span>
+              </div>
+              <div class="desktop-screen">
+                <img src="Coordinateurdrone.png" alt="Gestion de la flotte de drones" loading="lazy"/>
+              </div>
+            </div>
+            <div class="desktop-mockup">
+              <div class="desktop-chrome">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="url">sunubet.app · analytics</span>
+              </div>
+              <div class="desktop-screen">
+                <img src="CoordinateurBi.png" alt="Tableau de bord analytique" loading="lazy"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ============== SLIDE 4B — DIFFERENCIATION ============== -->
 <section id="difference" class="difference">
   <div class="difference-shell">
@@ -3440,10 +4094,113 @@
   </div>
 </section>
 
+<!-- ============== SLIDE 11 — ÉQUIPE ============== -->
+<section id="equipe" class="equipe">
+  <div class="equipe-shell">
+
+    <div class="equipe-header">
+      <span class="section-label reveal">11 — L'équipe</span>
+      <h2 class="equipe-title reveal">
+        Sénégalais.<span class="light">Pluridisciplinaires. Prêts.</span>
+      </h2>
+      <p class="equipe-lede reveal">
+        Une équipe qui mêle ingénierie logicielle, data science, design produit
+        et expertise terrain — toutes les compétences pour livrer SunuBët
+        à temps pour les JOJ Dakar 2026.
+      </p>
+    </div>
+
+    <div class="equipe-grid">
+
+      <article class="member reveal">
+        <div class="member-mark">AL</div>
+        <h3 class="member-name">Abdoulaye Ly</h3>
+        <p class="member-role">UI / UX Designer</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">PD</div>
+        <h3 class="member-name">Papa Matar Diop</h3>
+        <p class="member-role">Tech Lead</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">MS</div>
+        <h3 class="member-name">Moustapha Sylla</h3>
+        <p class="member-role">Data Scientist</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">ST</div>
+        <h3 class="member-name">Soukeye Thiam</h3>
+        <p class="member-role">Data Scientist</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">MD</div>
+        <h3 class="member-name">Mouhamadou Lamine Diop</h3>
+        <p class="member-role">Développeur</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">AT</div>
+        <h3 class="member-name">Aminata Timera</h3>
+        <p class="member-role">Business / Finance</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">OA</div>
+        <h3 class="member-name">Ousseynou Agne</h3>
+        <p class="member-role">Business / Marketing</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">BK</div>
+        <h3 class="member-name">Benewende Sofiane Koinda</h3>
+        <p class="member-role">Backend · Vidéo · Graphic Design</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">BD</div>
+        <h3 class="member-name">Birame Owens Diop</h3>
+        <p class="member-role">Développeur · Data Science</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">HD</div>
+        <h3 class="member-name">Hadja Diallo</h3>
+        <p class="member-role">Data Science · Communication</p>
+      </article>
+
+      <article class="member reveal">
+        <div class="member-mark">DA</div>
+        <h3 class="member-name">Destiga Batola Exaucé Amour</h3>
+        <p class="member-role">Ingénieur Réseau</p>
+      </article>
+
+    </div>
+
+    <div class="equipe-footer reveal">
+      <span class="label">11 personnes · 1 mission</span>
+      <span class="tagline">Sénégalais. Wolophones. Techniquement prêts. Sur le terrain.</span>
+    </div>
+
+  </div>
+</section>
+
 <script>
   // Reveal-on-scroll with stagger — observes each section independently
   (function () {
-    const sections = ['.constat', '.solution', '.produit', '.difference', '.data-intel', '.grid-slide', '.business-model', '.projection', '.orange-collab'];
+    // Sticky nav shadow on scroll
+    const nav = document.getElementById('site-nav');
+    if (nav) {
+      const onScroll = function () {
+        nav.classList.toggle('scrolled', window.scrollY > 8);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+    const sections = ['.constat', '.solution', '.produit', '.ecrans', '.difference', '.data-intel', '.grid-slide', '.business-model', '.projection', '.orange-collab', '.equipe'];
     sections.forEach(function (selector) {
       document.querySelectorAll(selector).forEach(function (root) {
         const cells = root.querySelectorAll('.reveal');
